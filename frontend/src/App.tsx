@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
+    <BrowserRouter basename="/biblioteca">
       <Routes>
         <Route element={<Layout />}>
           <Route path={"/"} element={<Catalogo /> } />
