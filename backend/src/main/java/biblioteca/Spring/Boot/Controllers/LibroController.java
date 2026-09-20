@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/libro")
 public class LibroController {
 
     private final LibroService service;
@@ -17,28 +17,23 @@ public class LibroController {
         this.service = service;
     }
 
-    @GetMapping("/libro")
+    @GetMapping("/listar")
     public List<LibroDTO> listarTodos(){
         return service.listarLibros();
     }
 
-
-    @GetMapping("/libro/{isbn}")
-    public ResponseEntity<LibroDTO> buscarLibro(@PathVariable String isbn) {
-        return ResponseEntity.of(service.buscarLibro(isbn));
-    }
 
     @PostMapping("/libro")
     public ResponseEntity<LibroDTO> crearLibro(@Valid @RequestBody LibroDTO libroDTO){
         return ResponseEntity.of(service.crearLibro(libroDTO));
     }
 
-    @PutMapping("/libro/{isbn}")
+    @PutMapping("/actualizar/{isbn}")
     public ResponseEntity<LibroDTO> actualizarLibro(@Valid @RequestBody LibroDTO dto,@PathVariable String isbn){
         return ResponseEntity.of(service.actualizarLibro(isbn, dto));
     }
 
-    @DeleteMapping("/libro/{isbn}")
+    @DeleteMapping("/borrar/{isbn}")
     public void borrarLibro(@PathVariable String isbn){
         service.eliminarLibro(isbn);
     }

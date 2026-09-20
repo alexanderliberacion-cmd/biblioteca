@@ -1,36 +1,37 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const API_ROUTES = {
     LIBRO: {
-      LISTAR: `${BASE_URL}/libro`,
-      BUSCAR: (isbn: string) =>`${BASE_URL}/libro/${isbn}`,
-      CREAR: `${BASE_URL}/libro`,
-      ACTUALIZAR: (isbn: string ) => `${BASE_URL}/libro/${isbn}`,
-      BORRAR: (isbn: string) => `${BASE_URL}/libro/${isbn}`,
+      LISTAR: `/libro/listar`,
+      CREAR: `/libro`,
+      ACTUALIZAR: (isbn: string ) => `/libro/actualizar/${isbn}`,
+      BORRAR: (isbn: string) => `/libro/borrar/${isbn}`,
     },
     EJEMPLAR: {
-        LISTAR: `${BASE_URL}/ejemplar`,
-        BUSCAR: (idEjemplar: number) => `${BASE_URL}/ejemplar/${idEjemplar}`,
-        CREAR: `${BASE_URL}/ejemplar`,
-        BORRAR: (idEjemplar: number) => `${BASE_URL}/ejemplar/${idEjemplar}`,
+        LISTAR: `/ejemplar/listar`,
+        CREAR: `/ejemplar`,
+        BORRAR: (idEjemplar: number) => `/ejemplar/borrar/${idEjemplar}`,
     },
     PRESTAMO: {
-        LISTAR: `${BASE_URL}/prestamo`,
-        BUSCAR: (id: number) => `${BASE_URL}/prestamo/${id}`,
-        CREAR: `${BASE_URL}/prestamo`,
-        SOCIOS_ATRASADOS: `${BASE_URL}/prestamo/socios-atrasados`,
-        LIBROS_MAS_PRESTAMOS: `${BASE_URL}/prestamo/libros-mas-prestados`,
-        MESES_CON_MAS_PRESTAMOS: `${BASE_URL}/prestamo/meses-mas-prestamos`,
-        PRESTAMOS_ACTIVOS_SOCIO: (idSocio: number) =>`${BASE_URL}/prestamo/prestamos-activos-socio?idSocio=${idSocio}`,
-        ACTUALIZAR: (id: number) => `${BASE_URL}/prestamo/${id}`,
-        DEVOLVER: (idEjemplar: number) => `${BASE_URL}/prestamo/devolver?idEjemplar=${idEjemplar}`,
-        BORRAR: (id: number) => `${BASE_URL}/prestamo/${id}`,
+        LISTAR: `/prestamo/listar`,
+        CREAR: `/prestamo`,
+        SOCIOS_ATRASADOS: `/prestamo/socios-atrasados`,
+        LIBROS_MAS_PRESTAMOS: `/prestamo/libros-mas-prestados`,
+        MESES_CON_MAS_PRESTAMOS: `/prestamo/meses-mas-prestamos`,
+        PRESTAMOS_ACTIVOS_SOCIO: (idSocio: number) =>`/prestamo/prestamos-activos-socio?idSocio=${idSocio}`,
+        ACTUALIZAR: (id: number) => `/prestamo/actualizar/${id}`,
+        DEVOLVER: (idEjemplar: number) => `/prestamo/devolver/${idEjemplar}`,
+        BORRAR: (id: number) => `/prestamo/borrar/${id}`,
     },
     SOCIOS: {
-        LISTAR: `${BASE_URL}/socio`,
-        BUSCAR: (idSocio: number) => `${BASE_URL}/socio/${idSocio}`,
-        CREAR: `${BASE_URL}/socio`,
-        ACTUALIZAR: (idSocio: number) => `${BASE_URL}/socio/${idSocio}`,
-        BORRAR: (idSocio: number) => `${BASE_URL}/socio/${idSocio}`,
+        LISTAR: `/socio/listar`,
+        CREAR: `/socio`,
+        ACTUALIZAR: (idSocio: number) => `/socio/actualizar/${idSocio}`,
+        BORRAR: (idSocio: number) => `/socio/borrar/${idSocio}`,
+        USUARIOS_PENDIENTES: `/socio/usuarios-pendientes`,
+        ACTIVACION: (idUsuario: number) => `/socio/activacion/${idUsuario}`
+    },
+    AUTH: {
+        LOGIN: `/auth/login`,
+        REGISTER: `/auth/register`,
     }
 }

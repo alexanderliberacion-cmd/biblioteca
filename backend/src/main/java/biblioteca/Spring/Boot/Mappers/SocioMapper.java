@@ -1,4 +1,4 @@
-package biblioteca.Spring.Boot.mappers;
+package biblioteca.Spring.Boot.Mappers;
 
 import biblioteca.Spring.Boot.DTO.SocioDTO;
 import biblioteca.Spring.Boot.Entities.SocioEntity;

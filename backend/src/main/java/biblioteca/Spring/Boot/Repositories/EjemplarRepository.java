@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EjemplarRepository extends JpaRepository<EjemplarEntity,Integer> {
-    EjemplarEntity findByEstado(String estado);
     boolean existsByIsbnIsbn(String isbn);
 }

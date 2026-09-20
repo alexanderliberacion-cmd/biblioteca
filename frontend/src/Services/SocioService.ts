@@ -1,23 +1,11 @@
 import {API_ROUTES} from "./apiRoutes.ts";
-import type{Socio} from "../Types.ts";
+import type {Socio, Usuario} from "../Types.ts";
+import {apiFetch} from "./apiFetch.ts";
 
 export class SocioService {
     //Listar
     static async listarSocios(): Promise<Socio[]> {
-        const response = await fetch(API_ROUTES.SOCIOS.LISTAR);
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        return response.json();
-    }
-
-    //Buscar
-    static async buscarSocio(idSocio: number): Promise<Socio | null> {
-        const response = await fetch(API_ROUTES.SOCIOS.BUSCAR(idSocio));
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        return response.json();
+        return apiFetch<Socio[]>(API_ROUTES.SOCIOS.LISTAR);
     }
 
     //Crear
@@ -26,41 +14,37 @@ export class SocioService {
         const {idSocio, ...socioData} = socio;
         const bodyToSend = idSocio === 0 ? socioData : socio;
 
-        const response = await fetch(API_ROUTES.SOCIOS.CREAR, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bodyToSend),
-        });
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        return response.json();
+       return apiFetch(API_ROUTES.SOCIOS.CREAR, {
+           method: 'POST',
+           body: JSON.stringify(bodyToSend),
+       })
     }
 
     //Actualizar
     static async actualizarSocio(idSocio: number, socio: Socio): Promise<Socio> {
-        const response = await fetch(API_ROUTES.SOCIOS.ACTUALIZAR(idSocio), {
+        return apiFetch<Socio>(API_ROUTES.SOCIOS.ACTUALIZAR(idSocio), {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(socio)
+            body: JSON.stringify(socio),
         });
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        return response.json();
     }
 
     //Borrar
     static async borrarSocio(idSocio: number): Promise<void> {
-        const response = await fetch(API_ROUTES.SOCIOS.BORRAR(idSocio), {
-            method: 'DELETE'
-        });
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
+        return apiFetch<void>(API_ROUTES.SOCIOS.BORRAR(idSocio), {
+            method: 'DELETE',
+        })
+    }
+
+    //Usuarios pendientes
+    static async usuariosPendientes(): Promise<Usuario[]> {
+        return apiFetch<Usuario[]>(API_ROUTES.SOCIOS.USUARIOS_PENDIENTES);
+    }
+
+    //Activacion
+    static async activarSocio(socio: Socio, idUsuario: number): Promise<Socio> {
+        return apiFetch<Socio>(API_ROUTES.SOCIOS.ACTIVACION(idUsuario), {
+            method: "PATCH",
+            body: JSON.stringify(socio)
+        })
     }
 }

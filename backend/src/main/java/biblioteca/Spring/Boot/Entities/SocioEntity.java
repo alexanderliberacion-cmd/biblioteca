@@ -14,6 +14,7 @@ public class SocioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="socio_id")
     private Integer idSocio;
 
     @Column(name = "nombre")

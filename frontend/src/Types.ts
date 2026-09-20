@@ -3,6 +3,7 @@ import type {Link} from "react-router";
 import type {ReactNode} from "react";
 
 
+
 export interface Ejemplar  {
     idEjemplar: number,
     estado: EstadoTipo,
@@ -33,7 +34,8 @@ export interface Prestamo {
 export interface Socio {
     idSocio: number,
     nombre: string,
-    email: string
+    email: string,
+    usuario?: Usuario | null
 }
 
 export interface Props {
@@ -46,27 +48,32 @@ export type BotonProps = Props & (
 
 export interface SelectorSocioProps {
     socios: Socio[],
+    usuarios?: Usuario[],
     idSocio: number,
     onChangeSocio: (event: React.ChangeEvent<HTMLSelectElement>) => void,
 }
 
 export interface locationsItem {
     nombre: string,
-    ruta: string
+    ruta: string,
+    requiredRoles?: Rol[]
 }
 
 export const locationsObject: locationsItem[] = [
     {
         nombre: "Socios",
-        ruta: "/socios"
+        ruta: "/socios",
+        requiredRoles: ["ADMIN","SOCIO"]
     },
     {
         nombre: "Almacen",
-        ruta: "/almacen"
+        ruta: "/almacen",
+        requiredRoles: ["ADMIN"]
     },
     {
         nombre: "Reportes",
-        ruta: "/reportes"
+        ruta: "/reportes",
+        requiredRoles: ["ADMIN"]
     }];
 
 export interface ListaProps {
@@ -86,4 +93,29 @@ export interface SelectorLibroProps {
     libros: Libro[],
     isbn: string
     onChangeLibros: (event: React.ChangeEvent<HTMLSelectElement>) => void,
+}
+
+export interface auth {
+    email: string,
+    rol: string,
+    token: string
+}
+
+export interface Usuario {
+    id: number,
+    email: string,
+    rol: string,
+    socioId?: number
+}
+
+export type Rol = 'BASIC' | 'SOCIO' | 'ADMIN';
+
+
+export interface ProtectedRoutesProps {
+    requiredRoles?: Rol[],
+}
+
+export interface AuthContextType {
+    sesionExpirada: boolean,
+    resetSesionExpirada: ()  => void
 }

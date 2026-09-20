@@ -6,7 +6,7 @@ import biblioteca.Spring.Boot.Exceptions.OperacionNoPermitidaException;
 import biblioteca.Spring.Boot.Exceptions.RecursoNoEncontradoException;
 import biblioteca.Spring.Boot.Repositories.EjemplarRepository;
 import biblioteca.Spring.Boot.Repositories.LibroRepository;
-import biblioteca.Spring.Boot.mappers.LibroMapper;
+import biblioteca.Spring.Boot.Mappers.LibroMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -34,11 +34,6 @@ public class LibroService {
         return Optional.of(libroMapper.libroADto(libroEntity));
     }
 
-    //Buscar libro
-    public Optional<LibroDTO> buscarLibro(String isbn) {
-        return libroRepository.findById(isbn)
-                .map(libroMapper::libroADto);
-    }
 
     //Listar libros
     public List<LibroDTO> listarLibros() {

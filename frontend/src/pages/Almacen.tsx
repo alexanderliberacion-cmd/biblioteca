@@ -48,6 +48,9 @@ export function Almacen() {
 
     function onChangeCantidad(e: React.ChangeEvent<HTMLInputElement>) {
         const parsed = parseInt(e.currentTarget.value);
+        if(isNaN(parsed)) {
+            return setEjemplarCantidad(1);
+        }
         setEjemplarCantidad(parsed);
     }
 

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import type {Prestamo, Socio} from "../Types.ts";
+import type {Prestamo, Rol, Socio, Usuario} from "../Types.ts";
 import {SocioService} from "../Services/SocioService.ts";
 import {PrestamoService} from "../Services/PrestamoService.ts";
 import * as React from "react";
@@ -16,24 +16,32 @@ export function Socios() {
     const [visible, setVisible] = useState<boolean>(false);
     const [socioEnEdicion, setSocioEnEdicion] = useState<number>(0);
     const [idSelector, setIdSelector] = useState<number>(0);
-
+    const [usuariosPendientes, setUsuariosPendientes] = useState<Usuario[]>([])
     const prestamoActivo = prestamos.filter(p => p.idSocio === idSelector && !p.fechaDevolucion);
     const prestamoAntiguo = prestamos.filter(p => p.idSocio === idSelector && p.fechaDevolucion);
+    const rolActual: Rol = localStorage.getItem("rol") as unknown as Rol;
+    const esAdmin = ["ADMIN"].includes(rolActual);
+
+
+    async function cargarSocios() {
+        try {
+            const[socios, prestamos, usuariosPendientes] = await Promise.all([
+                SocioService.listarSocios(),
+                PrestamoService.listarPrestamos(),
+                SocioService.usuariosPendientes()
+            ]);
+            setSocios(socios);
+            setPrestamos(prestamos);
+            setUsuariosPendientes(usuariosPendientes);
+        } catch(error) {
+            console.log("Error al cargar los socios y los prestamos",error);
+            setErrorMessage("Error al cargar socios o prestamos");
+        }
+    }
 
     useEffect(() => {
-        async function cargarSocios() {
-            try {
-                const[socios, prestamos] = await Promise.all([
-                    SocioService.listarSocios(),
-                    PrestamoService.listarPrestamos()
-                ]);
-                setSocios(socios);
-                setPrestamos(prestamos);
-            } catch(error) {
-                console.log("Error al cargar los socios y los prestamos",error);
-                setErrorMessage("Error al cargar socios o prestamos");
-            }
-        }
+
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         cargarSocios();
     }, []);
 
@@ -80,6 +88,26 @@ export function Socios() {
             setErrorMessage("Error al borrar al socio");
         }
     }
+
+    async function activarSocio(id: number) {
+        try {
+            const usuario = usuariosPendientes.find(usuario => usuario.id === id);
+            const nuevoSocio = usuario ? {idSocio: 0, nombre: "", email: usuario.email}: null;
+            if (nuevoSocio) {
+                await SocioService.activarSocio(nuevoSocio, id);
+            } else {
+                setErrorMessage("No se ha encontrado un usuario compatible");
+                return;
+            }
+            await cargarSocios();
+
+        } catch(error) {
+            console.log("Error al activar el socio",error);
+            setErrorMessage("Error al activar el socio");
+        }
+    }
+
+
 
 
     return (
@@ -151,6 +179,27 @@ export function Socios() {
                     </div>
                 )}
             </section>
+            {esAdmin && (
+                <>
+                    <div>
+                        <h3 className={"font-bold text-lg text-slate-800 px-1 mb-4 flex items-center gap-2"}>Usuarios Pendientes</h3>
+                    </div>
+                    <ul className={"flex flex-col gap-3"}>
+                    {usuariosPendientes?.map((usuario) => (
+
+                        <li key={usuario.id} className={"flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between border  bg-linear-to-r from-amber-300 to-orange-400 border-orange-900 p-4 shadow-xs"}>
+                            <div className={"flex flex-wrap gap-x-4 gap-y-1 items-center text-sm md:text-base w-full sm:w-auto"}>
+                            <span className={"font-medium text-slate-800"}>{usuario.email}</span>
+                            </div>
+                            <div className={"w-full sm:w-auto mt-2 sm:mt-0"}>
+                            <Boton onClick={() => activarSocio(usuario.id)}>Activar Socio</Boton>
+                            </div>
+                        </li>
+
+                    ))}
+                    </ul>
+                </>
+            )}
         </>
     );
 

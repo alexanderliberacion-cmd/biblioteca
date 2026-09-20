@@ -16,6 +16,11 @@ services:
       - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/biblioteca'
       - 'SPRING_DATASOURCE_USERNAME=postgres'
       - 'SPRING_DATASOURCE_PASSWORD=root'
+      - 'JWT_SECRET=${JWT_SECRET}'
+    labels:
+      org.springframework.boot.ignore: "true"
+    profiles:
+      - conBackend
     depends_on:
       - postgres
 

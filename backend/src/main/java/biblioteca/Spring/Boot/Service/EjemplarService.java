@@ -7,7 +7,7 @@ import biblioteca.Spring.Boot.Exceptions.RecursoNoEncontradoException;
 import biblioteca.Spring.Boot.Repositories.EjemplarRepository;
 import biblioteca.Spring.Boot.Repositories.LibroRepository;
 import biblioteca.Spring.Boot.Repositories.PrestamoRepository;
-import biblioteca.Spring.Boot.mappers.EjemplarMapper;
+import biblioteca.Spring.Boot.Mappers.EjemplarMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -40,10 +40,6 @@ public class EjemplarService {
         return Optional.of(ejemplarMapper.ejemplarADto(ejemplarGuardado));
     }
 
-    //Buscar Ejemplar
-    public Optional<EjemplarDTO> buscarEjemplar(Integer idEjemplar) {
-        return ejemplarRepository.findById(idEjemplar).map(ejemplarMapper::ejemplarADto);
-    }
 
     //Listar Ejemplares
     public List<EjemplarDTO> listarTodos() {
@@ -51,16 +47,6 @@ public class EjemplarService {
                 .stream()
                 .map(ejemplarMapper::ejemplarADto)
                 .toList();
-    }
-
-    //Actualizar ejemplar
-    public Optional<EjemplarDTO> actualizarEjemplar(Integer idEjemplar, EjemplarDTO ejemplarNuevo) {
-        EjemplarEntity ejemplarEncontrado =  ejemplarRepository.findById(idEjemplar).orElseThrow(() -> new RecursoNoEncontradoException("Ejemplar no encontrado"));
-        LibroEntity libroEncontrado = libroRepository.findById(ejemplarNuevo.isbn()).orElseThrow(() -> new RecursoNoEncontradoException("Libro no encontrado"));
-        ejemplarEncontrado.setIsbn(libroEncontrado);
-        ejemplarEncontrado.setEstado(ejemplarNuevo.estado());
-        EjemplarEntity ejemplarActualizado = ejemplarRepository.save(ejemplarEncontrado);
-        return Optional.of(ejemplarMapper.ejemplarADto(ejemplarActualizado));
     }
 
     //Borrar Ejemplar

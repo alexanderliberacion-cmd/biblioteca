@@ -1,6 +1,8 @@
 package biblioteca.Spring.Boot.Controllers;
 
 import biblioteca.Spring.Boot.DTO.SocioDTO;
+import biblioteca.Spring.Boot.DTO.UsuarioDTO;
+import biblioteca.Spring.Boot.Entities.UsuarioEntity;
 import biblioteca.Spring.Boot.Service.SocioService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/socio")
 public class SocioController {
 
     private final SocioService service;
@@ -18,14 +20,9 @@ public class SocioController {
         this.service = service;
     }
 
-    @GetMapping("/socio")
+    @GetMapping("/listar")
     public List<SocioDTO> listarSocio(){
         return service.listarTodos();
-    }
-
-    @GetMapping("/socio/{idSocio}")
-    public ResponseEntity<SocioDTO> buscarSocio(@PathVariable Integer idSocio){
-        return ResponseEntity.of(service.buscarSocio(idSocio));
     }
 
     @PostMapping("/socio")
@@ -33,13 +30,23 @@ public class SocioController {
         return service.crearSocio(dto);
     }
 
-    @PutMapping("/socio/{idSocio}")
+    @PutMapping("/actualizar/{idSocio}")
     public ResponseEntity<SocioDTO> actualizarSocio(@PathVariable Integer idSocio, @Valid @RequestBody SocioDTO dto) {
         return ResponseEntity.of(service.actualizarSocio(idSocio, dto));
     }
 
-    @DeleteMapping("/socio/{idSocio}")
+    @DeleteMapping("/borrar/{idSocio}")
     public void borrarSocio(@PathVariable Integer idSocio) {
         service.eliminarSocio(idSocio);
+    }
+
+    @GetMapping("/usuarios-pendientes")
+    public List<UsuarioDTO> listaUsuariosPendientes() {
+        return service.listaUsuariosPendientes();
+    }
+
+    @PatchMapping("/activacion/{idUsuario}")
+    public SocioDTO activarSocio(@PathVariable Long idUsuario, @RequestBody SocioDTO dto) {
+        return service.activarSocio(idUsuario, dto);
     }
 }

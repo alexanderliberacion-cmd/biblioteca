@@ -10,8 +10,8 @@ import biblioteca.Spring.Boot.Exceptions.RecursoNoEncontradoException;
 import biblioteca.Spring.Boot.Repositories.EjemplarRepository;
 import biblioteca.Spring.Boot.Repositories.PrestamoRepository;
 import biblioteca.Spring.Boot.Repositories.SocioRepository;
-import biblioteca.Spring.Boot.mappers.PrestamoMapper;
-import biblioteca.Spring.Boot.mappers.SocioMapper;
+import biblioteca.Spring.Boot.Mappers.PrestamoMapper;
+import biblioteca.Spring.Boot.Mappers.SocioMapper;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
@@ -56,12 +56,6 @@ public class PrestamoService {
         return Optional.of(prestamoMapper.prestamoADto(guardado));
     }
 
-    //buscar prestamo
-    public Optional<PrestamoDTO> buscarPrestamo(Integer id) {
-        return prestamoRepository.findById(id)
-                .map(prestamoMapper::prestamoADto);
-    }
-
     //Listar prestamos
     public List<PrestamoDTO> listarPrestamos() {
         return prestamoRepository.findAll()
@@ -74,7 +68,7 @@ public class PrestamoService {
     //Devolver prestamo
     public Optional<PrestamoDTO> devolerPrestamo(Integer idEjemplar) {
         Optional<PrestamoEntity> prestamo = prestamoRepository.buscarPrestamoActivoPorEjemplar(idEjemplar);
-        if(!prestamo.isPresent()) {
+        if(prestamo.isEmpty()) {
             return Optional.empty();
         }
         PrestamoEntity prestamoEncontrado = prestamo.get();

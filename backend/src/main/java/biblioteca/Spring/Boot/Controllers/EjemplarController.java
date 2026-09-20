@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@RequestMapping("/ejemplar")
 @RestController
 public class EjemplarController {
 
@@ -16,27 +17,18 @@ public class EjemplarController {
         this.service = service;
     }
 
-    @GetMapping("/ejemplar")
+    @GetMapping("/listar")
     public List<EjemplarDTO> listarEjemplar() {
         return service.listarTodos();
     }
 
-    @GetMapping("/ejemplar/{idEjemplar}")
-    public ResponseEntity<EjemplarDTO> buscarEjemplar(@PathVariable Integer idEjemplar) {
-        return ResponseEntity.of(service.buscarEjemplar(idEjemplar));
-}
 
     @PostMapping("/ejemplar")
     public ResponseEntity<EjemplarDTO> crearEjemplar(@Valid @RequestBody EjemplarDTO dto) {
         return ResponseEntity.of(service.crearEjemplar(dto));
     }
 
-    @PutMapping("ejemplar/{idEjemplar}")
-    public ResponseEntity<EjemplarDTO> actualizarEjemplar(@PathVariable Integer idEjemplar, @Valid @RequestBody EjemplarDTO dto) {
-        return ResponseEntity.of(service.actualizarEjemplar(idEjemplar, dto));
-    }
-
-    @DeleteMapping("/ejemplar/{idEjemplar}")
+    @DeleteMapping("/borrar/{idEjemplar}")
     public void eliminarEjemplar(@PathVariable Integer idEjemplar) {
         service.eliminarEjemplar(idEjemplar);
     }
