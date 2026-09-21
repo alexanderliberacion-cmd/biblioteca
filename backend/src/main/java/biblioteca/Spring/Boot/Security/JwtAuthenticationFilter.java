@@ -8,10 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -39,13 +37,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String token = header.substring(7); //Recorta el header
-        String username = jwtUtil.extractUsername(token); //Da el token ya cortado extrayendo el username
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = usuarioDetailsService.loadUserByUsername(username);
-            //Si el token y el user estan validados crea una nueva authtoken con el user, credenciales y autoridades y hace un setAuthentication con el.
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authToken);
+        try {
+            String username = jwtUtil.extractUsername(token); //Da el token ya cortado extrayendo el username
+            if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = usuarioDetailsService.loadUserByUsername(username);
+                //Si el token y el user estan validados crea una nueva authtoken con el user, credenciales y autoridades y hace un setAuthentication con el.
+                if (jwtUtil.validateToken(token,userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+
+            }
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
         }
+
 
         //Si no es null y el contexto y autenticacion tampoco carga el usuario por username.
         //Activa el filtro
