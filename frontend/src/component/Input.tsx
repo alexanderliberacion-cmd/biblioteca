@@ -9,7 +9,7 @@ export function Input({value, type = "text", name, placeholder, onChange, id}:In
                name={name}
                placeholder={placeholder}
                type={type}
-               className="border-2 bg-linear-to-r from-amber-300 to-orange-400 font-bold text-center rounded-md text-black"
+               className="w-full border-2 bg-linear-to-r from-amber-300 to-orange-400 font-bold text-center rounded-md text-black"
                id={id}
         />
         </>

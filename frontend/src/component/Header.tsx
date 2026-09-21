@@ -22,7 +22,7 @@ export function Header(): JSX.Element {
     }
     return (
         <>
-            <header className="flex h-20 min-w-full items-center justify-between bg-linear-to-r from-amber-400 to-orange-500 px-6 shadow-md md:w-full">
+            <header className="flex flex-wrap h-20 w-full overflow-x-auto items-center justify-between bg-linear-to-r from-amber-400 to-orange-500 px-6 shadow-md md:w-full">
                 <Link to={"/"}>
                     <h1 className="text-2xl font-semibold underline decoration-2">Biblioteca Personal</h1>
                 </Link>
