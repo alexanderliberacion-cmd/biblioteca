@@ -11,21 +11,21 @@ public class GlobalExceptionHandler{
 
     @ExceptionHandler(OperacionNoPermitidaException.class)
     public ResponseEntity<ResponseError> operacionNoPermitida(OperacionNoPermitidaException ex) {
-        ResponseError error = new ResponseError(403, ex.getMessage());
+        var error = new ResponseError(403, ex.getMessage());
         ResponseEntity<ResponseError> response = ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
         return response;
     }
 
     @ExceptionHandler(RecursoNoEncontradoException.class)
     public ResponseEntity<ResponseError>  recursoNoEncontrado(RecursoNoEncontradoException ex) {
-        ResponseError error = new ResponseError(404, ex.getMessage());
+        var error = new ResponseError(404, ex.getMessage());
         ResponseEntity<ResponseError> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         return response;
     }
 
-    @ExceptionHandler(RecursoYaExistente.class)
-    public ResponseEntity<ResponseError> recursoYaExistente(RecursoYaExistente ex) {
-        ResponseError error = new ResponseError(409, ex.getMessage());
+    @ExceptionHandler(OperacionNoPermitida.class)
+    public ResponseEntity<ResponseError> recursoYaExistente(OperacionNoPermitida ex) {
+        var error = new ResponseError(409, ex.getMessage());
         ResponseEntity<ResponseError> response = ResponseEntity.status(HttpStatus.CONFLICT).body(error);
         return response;
     }

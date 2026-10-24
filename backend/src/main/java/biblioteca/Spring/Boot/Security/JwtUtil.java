@@ -32,8 +32,8 @@ public class JwtUtil {
     //Generamos el token construyendo el username, la fecha de creacion y de expiracion y firmandolo con la clave.
      public  String generateToken(String username){
          int fechaExpiracion3Horas = 1000 * 60 * 60 * 3;
-         Date now = new Date();
-         Date expiration = new Date(now.getTime() + fechaExpiracion3Horas); //tiempo de expiracion
+         var now = new Date();
+         var expiration = new Date(now.getTime() + fechaExpiracion3Horas); //tiempo de expiracion
          return Jwts.builder()
                  .subject(username)
                  .issuedAt(now)

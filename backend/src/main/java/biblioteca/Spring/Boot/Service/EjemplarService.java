@@ -3,7 +3,6 @@ package biblioteca.Spring.Boot.Service;
 import biblioteca.Spring.Boot.DTO.EjemplarDTO;
 import biblioteca.Spring.Boot.Entities.EjemplarEntity;
 import biblioteca.Spring.Boot.Entities.LibroEntity;
-import biblioteca.Spring.Boot.Exceptions.RecursoNoEncontradoException;
 import biblioteca.Spring.Boot.Repositories.EjemplarRepository;
 import biblioteca.Spring.Boot.Repositories.LibroRepository;
 import biblioteca.Spring.Boot.Repositories.PrestamoRepository;

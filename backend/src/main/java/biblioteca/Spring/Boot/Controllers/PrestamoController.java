@@ -4,7 +4,6 @@ import biblioteca.Spring.Boot.DTO.PrestamoDTO;
 import biblioteca.Spring.Boot.DTO.SocioDTO;
 import biblioteca.Spring.Boot.Service.PrestamoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +54,7 @@ public class PrestamoController {
 
     @PutMapping("/devolver/{idEjemplar}")
     public ResponseEntity<PrestamoDTO> devolverPrestamo (@PathVariable Integer idEjemplar) {
-        return ResponseEntity.of(service.devolerPrestamo(idEjemplar));
+        return ResponseEntity.of(service.devolverPrestamo(idEjemplar));
     }
 
     @DeleteMapping("/borrar/{id}")

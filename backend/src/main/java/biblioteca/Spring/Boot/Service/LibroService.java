@@ -54,7 +54,7 @@ public class LibroService {
 
     //Borrar Libro
     public void eliminarLibro(String isbn) {
-       boolean tieneEjemplares = ejemplarRepository.existsByIsbnIsbn(isbn);
+        var tieneEjemplares = ejemplarRepository.existsByIsbnIsbn(isbn);
        if (!tieneEjemplares) {
            libroRepository.deleteById(isbn);
        } else  {

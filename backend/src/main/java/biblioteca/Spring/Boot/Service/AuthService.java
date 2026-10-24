@@ -5,7 +5,7 @@ import biblioteca.Spring.Boot.DTO.LoginResponseDTO;
 import biblioteca.Spring.Boot.DTO.RegisterRequestDTO;
 import biblioteca.Spring.Boot.Entities.Rol;
 import biblioteca.Spring.Boot.Entities.UsuarioEntity;
-import biblioteca.Spring.Boot.Exceptions.RecursoYaExistente;
+import biblioteca.Spring.Boot.Exceptions.OperacionNoPermitida;
 import biblioteca.Spring.Boot.Repositories.UsuarioRepository;
 import biblioteca.Spring.Boot.Security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,8 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -32,7 +30,7 @@ public class AuthService {
     }
 
     public LoginResponseDTO login(@RequestBody LoginRequestDTO userDTO) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDTO.email(), userDTO.password()); //Crea el token con el email y password
+        var token = new UsernamePasswordAuthenticationToken(userDTO.email(), userDTO.password()); //Crea el token con el email y password
         authenticationManager.authenticate(token); //Lo autentica
         UsuarioEntity usuario = usuarioRepository.findByEmail(userDTO.email()).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado")); //Busca a el usuario
         String tokenGenerado = jwtUtil.generateToken(usuario.getEmail()); //Genera un token para el usuario
@@ -40,11 +38,11 @@ public class AuthService {
     }
 
     public LoginResponseDTO register(@RequestBody RegisterRequestDTO userDTO) {
-        boolean emailExiste = usuarioRepository.findByEmail(userDTO.email()).isPresent();
+        var emailExiste = usuarioRepository.findByEmail(userDTO.email()).isPresent();
         if (emailExiste) {
-            throw new RecursoYaExistente("Email ya usado");
+            throw new OperacionNoPermitida("Email ya usado");
         }
-        UsuarioEntity usuario = new UsuarioEntity(); //Crea el usuario y abajo se le da el email, contraseña hasheada y el rol
+        var usuario = new UsuarioEntity(); //Crea el usuario y abajo se le da el email, contraseña hasheada y el rol
         usuario.setEmail(userDTO.email());
         usuario.setPassword(passwordEncoder.encode(userDTO.password()));
         usuario.setRol(Rol.BASIC);
@@ -53,3 +51,4 @@ public class AuthService {
         return new LoginResponseDTO(usuario.getEmail(), usuario.getRol().name(), tokenGenerado);
     }
 }
+

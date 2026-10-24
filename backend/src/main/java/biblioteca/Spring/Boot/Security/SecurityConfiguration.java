@@ -80,11 +80,11 @@ public class SecurityConfiguration {
    }
    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-       CorsConfiguration configuration = new CorsConfiguration();
+       var configuration = new CorsConfiguration();
        configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://alexanderliberacion-cmd.github.io"));
        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH","DELETE"));
        configuration.setAllowedHeaders (List.of("Content-Type","Authorization"));
-       UrlBasedCorsConfigurationSource source  = new  UrlBasedCorsConfigurationSource();
+       var source  = new  UrlBasedCorsConfigurationSource();
        source.registerCorsConfiguration("/**", configuration);
        return source;
    }

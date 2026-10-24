@@ -121,6 +121,18 @@
 			<version>0.13.0</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- Source: https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>7.2.0-M2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

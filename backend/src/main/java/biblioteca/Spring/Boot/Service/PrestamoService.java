@@ -12,6 +12,7 @@ import biblioteca.Spring.Boot.Repositories.PrestamoRepository;
 import biblioteca.Spring.Boot.Repositories.SocioRepository;
 import biblioteca.Spring.Boot.Mappers.PrestamoMapper;
 import biblioteca.Spring.Boot.Mappers.SocioMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
@@ -43,11 +44,10 @@ public class PrestamoService {
         if(!socioEncontrado.isPresent() || !ejemplarEncontrado.isPresent() || !ejemplarEncontrado.get().getEstado().equals("DISPONIBLE")){
             return Optional.empty();
         }
-
         EjemplarEntity ejemplar = ejemplarEncontrado.get();
         ejemplar.setEstado("PRESTADO");
         ejemplarRepository.save(ejemplar);
-        PrestamoEntity prestamo = new PrestamoEntity();
+        var prestamo = new PrestamoEntity();
         prestamo.setFechaInicio(LocalDate.now());
         prestamo.setFechaLimite(LocalDate.now().plusDays(15));
         prestamo.setSocioId(socioEncontrado.get());
@@ -66,7 +66,7 @@ public class PrestamoService {
 
 
     //Devolver prestamo
-    public Optional<PrestamoDTO> devolerPrestamo(Integer idEjemplar) {
+    public Optional<PrestamoDTO> devolverPrestamo(Integer idEjemplar) {
         Optional<PrestamoEntity> prestamo = prestamoRepository.buscarPrestamoActivoPorEjemplar(idEjemplar);
         if(prestamo.isEmpty()) {
             return Optional.empty();
