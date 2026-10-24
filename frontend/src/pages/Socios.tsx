@@ -92,7 +92,7 @@ export function Socios() {
     async function activarSocio(id: number) {
         try {
             const usuario = usuariosPendientes.find(usuario => usuario.id === id);
-            const nuevoSocio = usuario ? {idSocio: 0, nombre: "", email: usuario.email}: null;
+            const nuevoSocio = usuario ? {idSocio: 0, nombre: "", email: usuario.email} : null;
             if (nuevoSocio) {
                 await SocioService.activarSocio(nuevoSocio, id);
             } else {

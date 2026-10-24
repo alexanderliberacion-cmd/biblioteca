@@ -23,6 +23,7 @@ export function Catalogo() {
     const [idSocioDevolucion, setIdSocioDevolucion] = useState<number>(0);
     const [prestamosActivos, setPrestamosActivos] = useState<Prestamo[]>([]);
     const[idEjemplarDevuelto, setIdEjemplarDevuelto] = useState<number>(0);
+
     //Estas dos reciben el mensaje de no autorizacion desde protected route
     const location = useLocation();
     const mensajeNoAutorizado = location.state?.mensaje;

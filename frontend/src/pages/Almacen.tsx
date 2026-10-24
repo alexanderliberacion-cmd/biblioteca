@@ -190,7 +190,7 @@ export function Almacen() {
                                             <span
                                                 className="bg-white/40 px-2 py-0.5 rounded font-mono text-xs font-bold w-max">ISBN: {l.isbn}</span>
                                             <span
-                                                className="font-bold text-base break-words text-orange-950">{l.titulo}</span>
+                                                className="font-bold text-base wrap-break-word text-orange-950">{l.titulo}</span>
                                             <span className="text-sm text-slate-800 italic">por {l.autor}</span>
                                         </div>
                                         <div
