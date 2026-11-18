@@ -12,7 +12,6 @@ import biblioteca.Spring.Boot.Repositories.PrestamoRepository;
 import biblioteca.Spring.Boot.Repositories.SocioRepository;
 import biblioteca.Spring.Boot.Mappers.PrestamoMapper;
 import biblioteca.Spring.Boot.Mappers.SocioMapper;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;

@@ -1,6 +1,5 @@
 package biblioteca.Spring.Boot.Service;
 
-import biblioteca.Spring.Boot.DTO.RegisterRequestDTO;
 import biblioteca.Spring.Boot.DTO.SocioDTO;
 import biblioteca.Spring.Boot.DTO.UsuarioDTO;
 import biblioteca.Spring.Boot.Entities.Rol;
@@ -18,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

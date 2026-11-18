@@ -29,7 +29,7 @@ public class EjemplarService {
     public Optional<EjemplarDTO> crearEjemplar(EjemplarDTO ejemplarDTO) {
         Optional<LibroEntity> libroEncontrado  = libroRepository.findById(ejemplarDTO.isbn()); //Encontramos el libro del ejemplar
 
-        if(!libroEncontrado.isPresent()) {
+        if(libroEncontrado.isEmpty()) {
            return Optional.empty();
         }
         EjemplarEntity nuevoEjemplar = ejemplarMapper.dtoAEjemplar(ejemplarDTO);
